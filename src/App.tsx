@@ -1,24 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
+import { FC, useState } from 'react';
 import './App.css';
 
-function App() {
+interface AppProps {
+  sendSearchQuery?(): void
+}
+
+const App: FC<AppProps> = ({sendSearchQuery = () => undefined}) => {
+  const [searchValue, setSearchValue] = useState<string>()
+
+  const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value)
+  }
+
+  const onClickHandler = () => {
+    sendSearchQuery()
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input
+        name="search"
+        type="text"
+        onChange={onChangeHandler}
+        value={searchValue}
+      />
+      <button
+        onClick={onClickHandler}
+      >Search
+      </button>
     </div>
   );
 }
